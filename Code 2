@@ -1,0 +1,56 @@
+import random
+import string
+
+def password_generator():
+    print("🔐 ГЕНЕРАТОР ПАРОЛЕЙ")
+    print("=" * 25)
+    
+    try:
+        # Ввод параметров
+        length = int(input("Длина пароля (8-20): "))
+        if length < 8 or length > 20:
+            print("❌ Длина должна быть от 8 до 20 символов!")
+            return
+        
+        use_digits = input("Использовать цифры? (y/n): ").lower() == 'y'
+        use_special = input("Использовать специальные символы? (y/n): ").lower() == 'y'
+        
+        # Создание набора символов
+        characters = string.ascii_letters  # буквы верхнего и нижнего регистра
+        
+        if use_digits:
+            characters += string.digits
+        if use_special:
+            characters += "!@#$%^&*()_+-="
+        
+        if not characters:
+            print("❌ Нужно выбрать хотя бы один тип символов!")
+            return
+        
+        # Генерация пароля
+        password = ''.join(random.choice(characters) for _ in range(length))
+        
+        # Вывод результата
+        print("\n" + "=" * 25)
+        print("🔒 ВАШ ПАРОЛЬ:")
+        print(f"📝 {password}")
+        print(f"📏 Длина: {len(password)} символов")
+        print("=" * 25)
+        
+        # Оценка сложности
+        strength = "слабый"
+        if length >= 12 and use_digits and use_special:
+            strength = "очень сильный"
+        elif length >= 10 and (use_digits or use_special):
+            strength = "сильный"
+        elif length >= 8:
+            strength = "средний"
+            
+        print(f"💪 Сложность: {strength}")
+        
+    except ValueError:
+        print("❌ Ошибка! Пожалуйста, вводите корректные числа.")
+
+# Запуск программы
+if __name__ == "__main__":
+    password_generator()
